@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Usuarios">
+
+    <View
+        android:id="@+id/splashDegradado"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/UsuariosGLh1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.05" />
+
+    <ImageView
+        android:id="@+id/UsuariosLogo"
+        android:layout_width="135dp"
+        android:layout_height="130dp"
+        android:src="@drawable/pet_match2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/UsuariosGLh1" />
+
+    <TextView
+        android:id="@+id/UsuariosAppName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/app_name"
+        android:textSize="35sp"
+        android:textColor="@color/black"
+        android:fontFamily="@font/inder"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/UsuariosLogo" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/UsuariosGLv1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.2" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/UsuariosGLv2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.8" />
+
+   
+    <Button
+        android:id="@+id/UsuarioButton"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="90dp"
+        android:text="Entrar como invitad@"
+        app:cornerRadius="10dp"
+        app:layout_constraintEnd_toEndOf="@id/UsuariosGLv2"
+        app:layout_constraintStart_toStartOf="@id/UsuariosGLv1"
+        app:layout_constraintTop_toBottomOf="@id/UsuariosAppName" />
+
+   
+    <Button
+        android:id="@+id/IniciarSesionButton"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="16dp"
+        android:text="Iniciar Sesion"
+        app:cornerRadius="10dp"
+        app:layout_constraintEnd_toEndOf="@id/UsuariosGLv2"
+        app:layout_constraintStart_toStartOf="@id/UsuariosGLv1"
+        app:layout_constraintTop_toBottomOf="@id/UsuarioButton" />
+
+    
+    <Button
+        android:id="@+id/CrearCuentaButton"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="16dp"
+        android:text="Crear Cuenta"
+        app:cornerRadius="10dp"
+        app:layout_constraintEnd_toEndOf="@id/UsuariosGLv2"
+        app:layout_constraintStart_toStartOf="@id/UsuariosGLv1"
+        app:layout_constraintTop_toBottomOf="@id/IniciarSesionButton" />
+
+    
+
+</androidx.constraintlayout.widget.ConstraintLayout>
