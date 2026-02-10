@@ -7,6 +7,7 @@ import android.text.TextWatcher;
 import android.view.Gravity;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -36,7 +37,6 @@ public class MainActivity extends AppCompatActivity {
     NavigationView navigationView;
     ImageView menuHamburguesa, closeMenu;
     ApiInterface api;
-
     Button btn1, btn2, btn3, btn4;
 
     @Override
@@ -99,7 +99,9 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(MainActivity.this, Pets.class));
             } else if (item.getItemId() == R.id.nav_exit) {
                 startActivity(new Intent(MainActivity.this, Usuarios.class));
-            }
+            } else if (item.getItemId() == R.id.nav_refugio) {
+                Intent intent = new Intent(this, Refugio.class);
+                startActivity(intent);
             drawerLayout.closeDrawer(GravityCompat.END);
             return true;
         });
