@@ -107,13 +107,12 @@ public class MainActivity extends AppCompatActivity {
         closeMenu.setOnClickListener(v -> drawerLayout.closeDrawer(GravityCompat.END));
 
         navigationView.setNavigationItemSelectedListener(item -> {
-            int id = item.getItemId();
-            if (id == R.id.nav_profile) {
-                Toast.makeText(this, "Mi Perfil", Toast.LENGTH_SHORT).show();
-            } else if (id == R.id.nav_pets) {
-                Toast.makeText(this, "Mascotas", Toast.LENGTH_SHORT).show();
-            } else if (id == R.id.nav_exit) {
-                Toast.makeText(this, "Cerrar sesión", Toast.LENGTH_SHORT).show();
+            if (item.getItemId() == R.id.nav_profile) {
+                startActivity(new Intent(MainActivity.this, Profile.class));
+            } else if (item.getItemId() == R.id.nav_pets) {
+                startActivity(new Intent(MainActivity.this, Pets.class));
+            } else if (item.getItemId() == R.id.nav_exit) {
+                startActivity(new Intent(MainActivity.this, Usuarios.class));
             }
             drawerLayout.closeDrawer(GravityCompat.END);
             return true;

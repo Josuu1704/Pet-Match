@@ -31,6 +31,13 @@
         <activity
             android:name=".Login"
             android:exported="false" />
+        <activity
+            android:name=".Profile"
+            android:exported="false"/>
+        <activity
+            android:name=".Pets"
+            android:exported="false"/>
+
 
     </application>
 
