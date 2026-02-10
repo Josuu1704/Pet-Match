@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
         api = ApiClient.getClient().create(ApiInterface.class);
 
         // --- Botones ---
-        btn1.setOnClickListener(v -> seleccionarBoton(btn1, "adoptar"));
+        btn1.setOnClickListener(v -> seleccionarBoton(btn1, "adoptados"));
         btn2.setOnClickListener(v -> seleccionarBoton(btn2, "encontrados"));
         btn3.setOnClickListener(v -> seleccionarBoton(btn3, "perdidos"));
         btn4.setOnClickListener(v -> seleccionarBoton(btn4, "favoritos"));
@@ -75,7 +75,8 @@ public class MainActivity extends AppCompatActivity {
         // --- Barra de búsqueda (opcional) ---
         searchBar.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -83,7 +84,8 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
-            public void afterTextChanged(Editable s) { }
+            public void afterTextChanged(Editable s) {
+            }
         });
 
         // --- Menu lateral ---
@@ -123,7 +125,7 @@ public class MainActivity extends AppCompatActivity {
         Call<List<DogModel>> call;
 
         switch (tabla) {
-            case "adoptar":
+            case "adoptados":
                 call = api.getAdoptados();
                 break;
             case "encontrados":
@@ -144,13 +146,20 @@ public class MainActivity extends AppCompatActivity {
             public void onResponse(Call<List<DogModel>> call, Response<List<DogModel>> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     dogList.addAll(response.body());
+                    adapter.notifyDataSetChanged();
+                } else {
+                    Toast.makeText(MainActivity.this,
+                            "Error en la respuesta: " + response.code(),
+                            Toast.LENGTH_SHORT).show();
                 }
-                adapter.notifyDataSetChanged();
             }
 
             @Override
             public void onFailure(Call<List<DogModel>> call, Throwable t) {
-                Toast.makeText(MainActivity.this, "Error de conexión", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this,
+                        "Error de conexión: " + t.getMessage(),
+                        Toast.LENGTH_LONG).show();
+                t.printStackTrace(); // Para ver detalles en Logcat
             }
         });
     }
