@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -19,21 +19,55 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="10dp">
 
+            <!-- Imagen del animal -->
             <ImageView
                 android:id="@+id/imagenTarjetaDog"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
-                tools:srcCompat="@tools:sample/avatars" />
+                android:scaleType="centerCrop" />
 
+            <!-- Nombre -->
             <TextView
-                android:id="@+id/textoTarjetaDog"
-                android:textAlignment="center"
+                android:id="@+id/textoNombre"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="TextView" />
+                android:text="Nombre"
+                android:textAlignment="center"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_marginTop="8dp"/>
+
+            <!-- Dueño -->
+            <TextView
+                android:id="@+id/textoDuenyo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Dueño: "
+                android:textSize="14sp"
+                android:layout_marginTop="4dp"/>
+
+            <!-- Categoría -->
+            <TextView
+                android:id="@+id/textoCategoria"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Categoría: "
+                android:textSize="14sp"
+                android:layout_marginTop="2dp"/>
+
+            <!-- Refugio -->
+            <TextView
+                android:id="@+id/textoRefugio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Refugio: "
+                android:textSize="14sp"
+                android:layout_marginTop="2dp"/>
+
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>
