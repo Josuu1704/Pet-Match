@@ -1,6 +1,5 @@
 package com.rodgar00.petmatch;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -19,6 +18,7 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -37,11 +37,13 @@ public class MainActivity extends AppCompatActivity {
     ApiInterface api;
 
     Button btn1, btn2, btn3, btn4;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // --- Inicializar vistas ---
         searchBar = findViewById(R.id.searchBar);
         recyclerView = findViewById(R.id.characterRecycler);
         btn1 = findViewById(R.id.btn1);
@@ -60,50 +62,31 @@ public class MainActivity extends AppCompatActivity {
 
         api = ApiClient.getClient().create(ApiInterface.class);
 
-        btn1.setOnClickListener(v -> seleccionarBoton(btn1, "husky")); // Ejemplo: Adoptar carga huskys
-        btn2.setOnClickListener(v -> seleccionarBoton(btn2, "labrador"));
-        btn3.setOnClickListener(v -> seleccionarBoton(btn3, "beagle"));
-        btn4.setOnClickListener(v -> seleccionarBoton(btn4, "pug"));
+        // --- Botones ---
+        btn1.setOnClickListener(v -> seleccionarBoton(btn1, "adoptar"));
+        btn2.setOnClickListener(v -> seleccionarBoton(btn2, "encontrados"));
+        btn3.setOnClickListener(v -> seleccionarBoton(btn3, "perdidos"));
+        btn4.setOnClickListener(v -> seleccionarBoton(btn4, "favoritos"));
 
-        seleccionarBoton(btn1, "husky");
+        // Carga inicial
+        seleccionarBoton(btn1, "adoptar");
 
-        buscarPerro("husky");
-
+        // --- Barra de búsqueda (opcional) ---
         searchBar.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                String breed = s.toString().trim().toLowerCase();
-
-                if (breed.length() >= 3) {
-                    buscarPerro(breed);
-                }
+                // Aquí puedes implementar búsqueda dentro de dogList si quieres
             }
 
             @Override
-            public void afterTextChanged(Editable s) {
-            }
+            public void afterTextChanged(Editable s) { }
         });
 
-    }
-
-    private void seleccionarBoton(Button boton, String raza) {
-        desmarcarTodos();
-        boton.setSelected(true); // Esto activa el state_selected="true" del XML
-        buscarPerro(raza);
-    }
-
-    private void desmarcarTodos() {
-        btn1.setSelected(false);
-        btn2.setSelected(false);
-        btn3.setSelected(false);
-        btn4.setSelected(false);
-        //Menu desplegable
+        // --- Menu lateral ---
         menuHamburguesa.setOnClickListener(v -> drawerLayout.openDrawer(GravityCompat.END));
-
         closeMenu.setOnClickListener(v -> drawerLayout.closeDrawer(GravityCompat.END));
 
         navigationView.setNavigationItemSelectedListener(item -> {
@@ -120,34 +103,54 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void buscarPerro(String breed) {
+    // --- Selección de botón ---
+    private void seleccionarBoton(Button boton, String tabla) {
+        desmarcarTodos();
+        boton.setSelected(true);
+        buscarAnimales(tabla);
+    }
 
-        int NUM_IMAGENES = 20;
+    private void desmarcarTodos() {
+        btn1.setSelected(false);
+        btn2.setSelected(false);
+        btn3.setSelected(false);
+        btn4.setSelected(false);
+    }
 
-        api.getDogsByBreed(breed, NUM_IMAGENES).enqueue(new Callback<DogResponse>() {
+    // --- Buscar animales según tabla ---
+    private void buscarAnimales(String tabla) {
+        dogList.clear();
+        Call<List<DogModel>> call;
+
+        switch (tabla) {
+            case "adoptar":
+                call = api.getAdoptados();
+                break;
+            case "encontrados":
+                call = api.getEncontrados();
+                break;
+            case "perdidos":
+                call = api.getPerdidos();
+                break;
+            case "favoritos":
+                call = api.getFavoritos();
+                break;
+            default:
+                return;
+        }
+
+        call.enqueue(new Callback<List<DogModel>>() {
             @Override
-            public void onResponse(Call<DogResponse> call, Response<DogResponse> response) {
-
+            public void onResponse(Call<List<DogModel>> call, Response<List<DogModel>> response) {
                 if (response.isSuccessful() && response.body() != null) {
-
-                    dogList.clear();
-
-                    for (String url : response.body().getImageUrls()) {
-                        dogList.add(new DogModel(breed, url));
-                    }
-
-                    adapter.notifyDataSetChanged();
-                } else {
-                    dogList.clear();
-                    adapter.notifyDataSetChanged();
+                    dogList.addAll(response.body());
                 }
+                adapter.notifyDataSetChanged();
             }
 
             @Override
-            public void onFailure(Call<DogResponse> call, Throwable t) {
-                Toast.makeText(MainActivity.this,
-                        "Error de conexión",
-                        Toast.LENGTH_SHORT).show();
+            public void onFailure(Call<List<DogModel>> call, Throwable t) {
+                Toast.makeText(MainActivity.this, "Error de conexión", Toast.LENGTH_SHORT).show();
             }
         });
     }

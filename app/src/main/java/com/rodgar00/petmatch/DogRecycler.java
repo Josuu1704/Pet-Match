@@ -16,8 +16,8 @@ import java.util.ArrayList;
 
 public class DogRecycler extends RecyclerView.Adapter<DogRecycler.DogViewHolder> {
 
-    Context context;
-    ArrayList<DogModel> dogModels;
+    private Context context;
+    private ArrayList<DogModel> dogModels;
 
     public DogRecycler(Context context, ArrayList<DogModel> dogModels) {
         this.context = context;
@@ -34,11 +34,25 @@ public class DogRecycler extends RecyclerView.Adapter<DogRecycler.DogViewHolder>
 
     @Override
     public void onBindViewHolder(@NonNull DogViewHolder holder, int position) {
-        holder.breedText.setText(dogModels.get(position).getBreed());
+        DogModel dog = dogModels.get(position);
+
+        holder.nombreText.setText(dog.getNombre());
+
+        // Mostrar dueño si existe
+        if (dog.getDuenyo() != null && !dog.getDuenyo().isEmpty()) {
+            holder.duenyoText.setText("Dueño: " + dog.getDuenyo());
+            holder.duenyoText.setVisibility(View.VISIBLE);
+        } else {
+            holder.duenyoText.setVisibility(View.GONE);
+        }
+
+        holder.categoriaText.setText("Categoría: " + dog.getCategoria());
+        holder.refugioText.setText("Refugio: " + dog.getEsRefugio());
 
         Glide.with(context)
-                .load(dogModels.get(position).getImageUrl())
+                .load(dog.getImagen())  // URL de imagen del backend
                 .centerCrop()
+                .placeholder(R.drawable.placeholder) // poner un placeholder mientras carga
                 .into(holder.dogImage);
     }
 
@@ -49,12 +63,15 @@ public class DogRecycler extends RecyclerView.Adapter<DogRecycler.DogViewHolder>
 
     static class DogViewHolder extends RecyclerView.ViewHolder {
 
-        TextView breedText;
+        TextView nombreText, duenyoText, categoriaText, refugioText;
         ImageView dogImage;
 
         public DogViewHolder(@NonNull View itemView) {
             super(itemView);
-            breedText = itemView.findViewById(R.id.textoTarjetaDog);
+            nombreText = itemView.findViewById(R.id.textoNombre);
+            duenyoText = itemView.findViewById(R.id.textoDuenyo);
+            categoriaText = itemView.findViewById(R.id.textoCategoria);
+            refugioText = itemView.findViewById(R.id.textoRefugio);
             dogImage = itemView.findViewById(R.id.imagenTarjetaDog);
         }
     }
