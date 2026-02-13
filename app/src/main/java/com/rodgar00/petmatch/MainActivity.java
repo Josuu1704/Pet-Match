@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
 
         api = ApiClient.getClient().create(ApiInterface.class);
 
-        // --- Botones (NO se modifican) ---
+        // --- Botones ---
         btn1.setOnClickListener(v -> seleccionarBoton(btn1, "adoptados"));
         btn2.setOnClickListener(v -> seleccionarBoton(btn2, "encontrados"));
         btn3.setOnClickListener(v -> seleccionarBoton(btn3, "perdidos"));
@@ -74,15 +74,15 @@ public class MainActivity extends AppCompatActivity {
 
         // Carga inicial
         seleccionarBoton(btn1, "adoptados");
-
-        // --- Floating Action Button ---
+        // Floating Action Button
         FloatingActionButton buttonAdd = findViewById(R.id.buttonAdd);
         buttonAdd.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, AgregarAnimalActivity.class);
             startActivity(intent);
         });
 
-        // --- Barra de búsqueda ---
+
+        // --- Barra de búsqueda (opcional) ---
         searchBar.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
